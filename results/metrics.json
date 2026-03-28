@@ -1,4 +1,8 @@
 {
+  "model_name": "knn_mnist",
+  "model_version": "1.1.0",
+  "metrics_schema_version": "1.1",
+  "generated_at_utc": "2026-03-28T12:37:52.541069+00:00",
   "train_mode": "fast",
   "training_seconds": 144.20887550001498,
   "test_accuracy": 0.9305,
@@ -20,7 +24,7 @@
   "cv_std_accuracy": 0.0024238399287081496,
   "target_accuracy": 0.95,
   "accuracy": 0.9518,
-  "latency_ms_per_image": 8.279996362497332,
+  "latency_ms_per_image": 8.490672420797637,
   "target_latency_ms": 100.0,
   "classification_report": {
     "0": {
