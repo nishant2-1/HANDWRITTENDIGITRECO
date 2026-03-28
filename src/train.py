@@ -78,7 +78,9 @@ def parse_args() -> argparse.Namespace:
     Returns:
         argparse.Namespace: Parsed command-line arguments.
     """
-    parser = argparse.ArgumentParser(description="Train KNN model for handwritten digit recognition.")
+    parser = argparse.ArgumentParser(
+        description="Train KNN model for handwritten digit recognition."
+    )
     parser.add_argument(
         "--full",
         action="store_true",

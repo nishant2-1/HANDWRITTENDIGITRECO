@@ -1,6 +1,7 @@
 numpy
 scikit-learn
-tensorflow
+tensorflow; python_version < "3.13"
+tf-nightly; python_version >= "3.13"
 matplotlib
 seaborn
 tqdm
@@ -8,3 +9,11 @@ joblib
 pillow
 opencv-python
 pytest
+fastapi
+uvicorn
+python-multipart
+streamlit
+ruff
+black
+mypy
+httpx

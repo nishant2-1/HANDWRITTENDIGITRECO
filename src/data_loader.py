@@ -17,7 +17,6 @@ from src.constants import (
     PIXEL_SCALE,
 )
 
-
 ArrayPair = Tuple[np.ndarray, np.ndarray]
 DatasetSplit = Tuple[ArrayPair, ArrayPair]
 
