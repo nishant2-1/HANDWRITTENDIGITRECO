@@ -8,7 +8,7 @@
 
 Production-style machine learning project for classifying handwritten digits (0-9) from MNIST using a tuned KNN model, reproducible training/evaluation pipelines, and CI-tested code quality.
 
-Live repository: https://github.com/nishant2-1/HANDWRITTENDIGITRECO
+Live repository: <https://github.com/nishant2-1/HANDWRITTENDIGITRECO>
 
 ## Table of Contents
 
@@ -19,6 +19,7 @@ Live repository: https://github.com/nishant2-1/HANDWRITTENDIGITRECO
 - [Portfolio Pitch](#portfolio-pitch)
 - [Setup](#setup)
 - [Run the Project](#run-the-project)
+- [Run with Docker](#run-with-docker)
 - [Outputs and Artifacts](#outputs-and-artifacts)
 - [Performance](#performance)
 - [Interview Talking Points](#interview-talking-points)
@@ -73,6 +74,9 @@ handwritten-digit-recognition/
 ├── pyrightconfig.json
 ├── pyproject.toml
 ├── Makefile
+├── Dockerfile
+├── docker-compose.yml
+├── .dockerignore
 ├── notebooks/
 │   └── exploration.ipynb
 ├── examples/
@@ -93,7 +97,8 @@ handwritten-digit-recognition/
 │   └── version.py
 ├── tests/
 │   ├── __init__.py
-│   └── test_model.py
+│   ├── test_model.py
+│   └── test_api.py
 ├── models/
 │   └── knn_best.joblib
 └── results/
@@ -207,13 +212,49 @@ pytest tests -v
 python -m uvicorn api.main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
-Open API docs at: http://127.0.0.1:8000/docs
+Open API docs at: <http://127.0.0.1:8000/docs>
 
 ### 6) Launch Streamlit demo UI
 
 ```bash
 python -m streamlit run app/streamlit_app.py
 ```
+
+## Run with Docker
+
+Use Docker when you want one-command startup without local Python dependency setup.
+
+Prerequisites:
+
+- Docker Desktop installed and running
+- Port `8000` (API) and `8501` (Streamlit) available
+
+Step-by-step:
+
+1. Build images
+
+```bash
+docker compose build
+```
+
+1. Start services
+
+```bash
+docker compose up -d
+```
+
+1. Open endpoints
+
+- API docs: `http://127.0.0.1:8000/docs`
+- Streamlit demo: `http://127.0.0.1:8501`
+
+1. Stop services
+
+```bash
+docker compose down
+```
+
+Tip: If you update dependencies or Dockerfile, rebuild with `docker compose build`.
 
 ## What You Need To Do
 
@@ -292,7 +333,6 @@ Use these points while presenting the project:
 
 ## Roadmap
 
-- Add Docker support for reproducible runtime
 - Add model registry style versioning and release tags
 - Add richer CLI/reporting for class-wise analysis
 

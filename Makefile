@@ -1,6 +1,6 @@
 PYTHON := "/Users/admin/Handwritten Digit Recognition /.venv/bin/python"
 
-.PHONY: install train evaluate test api demo format lint typecheck
+.PHONY: install train evaluate test api demo format lint typecheck docker-up docker-down docker-build
 
 help:
 	@echo "Available targets: install train evaluate test api demo format lint typecheck"
@@ -32,3 +32,12 @@ lint:
 
 typecheck:
 	$(PYTHON) -m mypy src api
+
+docker-build:
+	docker compose build
+
+docker-up:
+	docker compose up -d
+
+docker-down:
+	docker compose down
