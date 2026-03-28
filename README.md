@@ -8,6 +8,8 @@
 
 Production-style machine learning project for classifying handwritten digits (0-9) from MNIST using a tuned KNN model, reproducible training/evaluation pipelines, and CI-tested code quality.
 
+Live repository: https://github.com/nishant2-1/HANDWRITTENDIGITRECO
+
 ## Table of Contents
 
 - [Overview](#overview)
@@ -39,6 +41,8 @@ Core capabilities:
 - Fast mode and full mode training
 - Evaluation with classification report, confusion matrix, and latency measurement
 - Single-image prediction with class confidence scores
+- FastAPI inference API for backend showcase
+- Streamlit demo app for interactive frontend showcase
 
 ## Architecture
 
@@ -54,6 +58,8 @@ flowchart TD
      H --> I[results/metrics.json]
      H --> J[results/confusion_matrix.png]
      G --> K[predict.py CLI]
+    G --> L[FastAPI API]
+    G --> M[Streamlit Demo]
 ```
 
 ## Project Structure
@@ -65,10 +71,17 @@ handwritten-digit-recognition/
 ├── requirements.txt
 ├── .gitignore
 ├── pyrightconfig.json
+├── pyproject.toml
+├── Makefile
 ├── notebooks/
 │   └── exploration.ipynb
 ├── examples/
 │   └── README.md
+├── api/
+│   ├── __init__.py
+│   └── main.py
+├── app/
+│   └── streamlit_app.py
 ├── src/
 │   ├── __init__.py
 │   ├── constants.py
@@ -153,6 +166,9 @@ source .venv/bin/activate
 
 # Install dependencies
 pip install -r requirements.txt
+
+# Optional: run project helper commands
+make help
 ```
 
 ## Run the Project
@@ -184,6 +200,29 @@ python -m src.predict --image examples/your_digit.png
 ```bash
 pytest tests -v
 ```
+
+### 5) Start FastAPI backend
+
+```bash
+python -m uvicorn api.main:app --host 0.0.0.0 --port 8000 --reload
+```
+
+Open API docs at: http://127.0.0.1:8000/docs
+
+### 6) Launch Streamlit demo UI
+
+```bash
+python -m streamlit run app/streamlit_app.py
+```
+
+## What You Need To Do
+
+1. Create and activate a virtual environment.
+2. Run `pip install -r requirements.txt`.
+3. Train once with `python -m src.train` to generate the model file.
+4. Evaluate using `python -m src.evaluate`.
+5. For backend showcase, run FastAPI and open `/docs`.
+6. For frontend showcase, run Streamlit and test with custom digit images.
 
 ## Outputs and Artifacts
 
@@ -235,6 +274,7 @@ Use these points while presenting the project:
 
 - Local tests: `pytest tests -q`
 - GitHub Actions workflow: `.github/workflows/ci.yml`
+- CI quality gates: Ruff lint, Black format check, Mypy type check, Pytest
 - CI runs automatically on push and pull requests to `main`
 
 ## Troubleshooting
