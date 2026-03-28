@@ -6,7 +6,7 @@ import argparse
 import json
 import logging
 import time
-from pathlib import Path
+from datetime import datetime, timezone
 from typing import Any, Dict
 
 import joblib
@@ -14,14 +14,18 @@ import numpy as np
 from sklearn.metrics import accuracy_score
 from tqdm import tqdm
 
+from src.constants import (
+    METRICS_SCHEMA_VERSION,
+    MODEL_NAME,
+    MODEL_PATH,
+    MODEL_VERSION,
+    RESULTS_DIR,
+    TARGET_ACCURACY,
+    TRAINING_METRICS_PATH,
+)
 from .data_loader import load_mnist_data
 from .model import DEFAULT_CV_SPLITS, TrainingResult, tune_and_train_model
 
-MODEL_DIR: Path = Path("models")
-MODEL_PATH: Path = MODEL_DIR / "knn_best.joblib"
-RESULTS_DIR: Path = Path("results")
-TRAINING_METRICS_PATH: Path = RESULTS_DIR / "training_metrics.json"
-TARGET_ACCURACY: float = 0.95
 DEFAULT_TRAIN_SAMPLES: int = 12000
 DEFAULT_TEST_SAMPLES: int = 2000
 
@@ -48,6 +52,10 @@ def _save_training_metrics(
     cv_std: float = float(np.std(training_result.cv_scores))
 
     metrics_payload: Dict[str, Any] = {
+        "model_name": MODEL_NAME,
+        "model_version": MODEL_VERSION,
+        "metrics_schema_version": METRICS_SCHEMA_VERSION,
+        "generated_at_utc": datetime.now(timezone.utc).isoformat(),
         "train_mode": "full" if full_mode else "fast",
         "training_seconds": elapsed_seconds,
         "test_accuracy": test_accuracy,
@@ -166,7 +174,7 @@ def train_pipeline(
             LOGGER.info("Test accuracy: %.4f", test_accuracy)
 
         if _ == progress_steps[3]:
-            MODEL_DIR.mkdir(parents=True, exist_ok=True)
+            MODEL_PATH.parent.mkdir(parents=True, exist_ok=True)
             joblib.dump(training_result.best_model, MODEL_PATH)
             LOGGER.info("Model saved to %s", MODEL_PATH)
 

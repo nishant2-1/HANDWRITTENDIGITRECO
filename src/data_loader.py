@@ -9,10 +9,13 @@ import cv2
 import numpy as np
 from PIL import Image
 
-IMAGE_HEIGHT: int = 28
-IMAGE_WIDTH: int = 28
-NUM_PIXELS: int = IMAGE_HEIGHT * IMAGE_WIDTH
-PIXEL_SCALE: float = 255.0
+from src.constants import (
+    BINARIZATION_THRESHOLD,
+    IMAGE_HEIGHT,
+    IMAGE_WIDTH,
+    NUM_PIXELS,
+    PIXEL_SCALE,
+)
 
 
 ArrayPair = Tuple[np.ndarray, np.ndarray]
@@ -96,5 +99,5 @@ def load_custom_image(image_path: str) -> np.ndarray:
     else:
         merged = pil_array
 
-    inverted: np.ndarray = np.where(merged > 127, 0, 255).astype(np.uint8)
+    inverted: np.ndarray = np.where(merged > BINARIZATION_THRESHOLD, 0, 255).astype(np.uint8)
     return preprocess_images(inverted)

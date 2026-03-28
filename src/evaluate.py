@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import json
 import time
-from pathlib import Path
+from datetime import datetime, timezone
 from typing import Any, Dict, cast
 
 import joblib
@@ -13,13 +13,19 @@ import numpy as np
 import seaborn as sns
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 
+from src.constants import (
+    CONFUSION_MATRIX_PATH,
+    METRICS_PATH,
+    METRICS_SCHEMA_VERSION,
+    MODEL_NAME,
+    MODEL_PATH,
+    MODEL_VERSION,
+    RESULTS_DIR,
+    TARGET_LATENCY_MS,
+    TRAINING_METRICS_PATH,
+)
 from .data_loader import load_mnist_data
 
-MODEL_PATH: Path = Path("models/knn_best.joblib")
-RESULTS_DIR: Path = Path("results")
-METRICS_PATH: Path = RESULTS_DIR / "metrics.json"
-TRAINING_METRICS_PATH: Path = RESULTS_DIR / "training_metrics.json"
-CONFUSION_MATRIX_PATH: Path = RESULTS_DIR / "confusion_matrix.png"
 NUM_CLASSES: int = 10
 
 
@@ -69,10 +75,14 @@ def evaluate_model() -> Dict[str, Any]:
     training_metrics: Dict[str, Any] = _load_training_metrics()
 
     metrics: Dict[str, Any] = {
+        "model_name": MODEL_NAME,
+        "model_version": MODEL_VERSION,
+        "metrics_schema_version": METRICS_SCHEMA_VERSION,
+        "generated_at_utc": datetime.now(timezone.utc).isoformat(),
         **training_metrics,
         "accuracy": accuracy,
         "latency_ms_per_image": latency_ms_per_image,
-        "target_latency_ms": 100.0,
+        "target_latency_ms": TARGET_LATENCY_MS,
         "classification_report": report,
         "confusion_matrix": conf_matrix.tolist(),
     }

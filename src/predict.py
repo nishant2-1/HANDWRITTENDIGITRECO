@@ -3,14 +3,13 @@
 from __future__ import annotations
 
 import argparse
-from pathlib import Path
 
 import joblib
 import numpy as np
 
+from src.constants import MODEL_PATH
 from .data_loader import load_custom_image
 
-MODEL_PATH: Path = Path("models/knn_best.joblib")
 NUM_CLASSES: int = 10
 
 
@@ -45,17 +44,7 @@ def predict_digit(image_path: str) -> tuple[int, np.ndarray]:
 
     predicted_digit: int = int(model.predict(image_features)[0])
 
-    if hasattr(model, "predict_proba"):
-        confidences: np.ndarray = model.predict_proba(image_features)[0]
-    else:
-        distances, indices = model.kneighbors(image_features)
-        _ = indices
-        inverse_distance: np.ndarray = 1.0 / (distances + 1e-8)
-        normalized: np.ndarray = inverse_distance / np.sum(inverse_distance, axis=1, keepdims=True)
-        confidences = np.zeros(NUM_CLASSES, dtype=np.float64)
-
-        neighbor_labels: np.ndarray = model._y[model.kneighbors(image_features, return_distance=False)[0]]
-        np.add.at(confidences, neighbor_labels.astype(int), normalized[0])
+    confidences: np.ndarray = model.predict_proba(image_features)[0]
 
     return predicted_digit, confidences
 
