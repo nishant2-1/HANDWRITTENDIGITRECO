@@ -50,8 +50,8 @@ handwritten-digit-recognition/
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/handwritten-digit-recognition.git
-cd handwritten-digit-recognition
+git clone https://github.com/nishant2-1/HANDWRITTENDIGITRECO.git
+cd HANDWRITTENDIGITRECO
 
 # Create and activate a virtual environment
 python -m venv .venv
@@ -68,7 +68,11 @@ pip install -r requirements.txt
 ### Train the model
 
 ```bash
+# Fast mode (default, quicker)
 python -m src.train
+
+# Full mode (full MNIST + wider grid, slower)
+python -m src.train --full
 ```
 
 ### Evaluate on the test set
@@ -95,10 +99,10 @@ pytest tests/ -v
 
 | Metric            | Value     |
 |-------------------|-----------|
-| Test Accuracy     | ~97%      |
-| CV Mean Accuracy  | ~96.8%    |
-| CV Std Dev        | ±0.3%     |
-| Prediction Latency | <100 ms  |
+| Test Accuracy      | 95.18%   |
+| Macro F1 Score     | 95.16%   |
+| Prediction Latency | 8.68 ms  |
+| Latency Target     | <100 ms  |
 
 Confusion matrix and full classification report are saved to `results/` after running `evaluate.py`.
 
