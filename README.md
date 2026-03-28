@@ -20,6 +20,7 @@ Live repository: <https://github.com/nishant2-1/HANDWRITTENDIGITRECO>
 - [Setup](#setup)
 - [Run the Project](#run-the-project)
 - [Run with Docker](#run-with-docker)
+- [Portfolio Demo Checklist](#portfolio-demo-checklist)
 - [Outputs and Artifacts](#outputs-and-artifacts)
 - [Performance](#performance)
 - [Interview Talking Points](#interview-talking-points)
@@ -255,6 +256,36 @@ docker compose down
 ```
 
 Tip: If you update dependencies or Dockerfile, rebuild with `docker compose build`.
+
+## Portfolio Demo Checklist
+
+Use this sequence during interviews or portfolio walkthroughs.
+
+1. Activate your environment and run one command:
+
+```bash
+make portfolio-demo
+```
+
+1. Show automated quality checks in terminal output:
+    - Dependency install
+    - Test execution
+    - Evaluation artifact generation
+
+1. Open API docs and run `/health` and `/predict`:
+    - <http://127.0.0.1:8000/docs>
+
+1. Open the interactive demo and upload a digit image:
+    - <http://127.0.0.1:8501>
+
+1. Show saved metrics and confusion matrix artifacts:
+    - `results/metrics.json`
+    - `results/confusion_matrix.png`
+
+1. Highlight engineering maturity:
+    - CI workflow in `.github/workflows/ci.yml`
+    - API implementation in `api/main.py`
+    - Modular training/evaluation pipeline in `src/`
 
 ## What You Need To Do
 

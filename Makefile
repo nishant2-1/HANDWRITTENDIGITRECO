@@ -1,9 +1,9 @@
 PYTHON := "/Users/admin/Handwritten Digit Recognition /.venv/bin/python"
 
-.PHONY: install train evaluate test api demo format lint typecheck docker-up docker-down docker-build
+.PHONY: install train evaluate test api demo format lint typecheck docker-up docker-down docker-build portfolio-demo
 
 help:
-	@echo "Available targets: install train evaluate test api demo format lint typecheck"
+	@echo "Available targets: install train evaluate test api demo format lint typecheck docker-build docker-up docker-down portfolio-demo"
 
 install:
 	$(PYTHON) -m pip install --upgrade pip
@@ -41,3 +41,6 @@ docker-up:
 
 docker-down:
 	docker compose down
+
+portfolio-demo:
+	bash scripts/portfolio_demo.sh
