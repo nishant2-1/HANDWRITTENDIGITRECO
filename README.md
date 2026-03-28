@@ -17,6 +17,7 @@ Live repository: <https://github.com/nishant2-1/HANDWRITTENDIGITRECO>
 - [Project Structure](#project-structure)
 - [How It Works](#how-it-works)
 - [Portfolio Pitch](#portfolio-pitch)
+- [Portfolio Description Templates](#portfolio-description-templates)
 - [Setup](#setup)
 - [Run the Project](#run-the-project)
 - [Run with Docker](#run-with-docker)
@@ -162,6 +163,29 @@ Technical impact summary:
 - CV mean accuracy: 95.35%
 - Macro F1 score: 95.16%
 - Inference latency: 8.28 ms per image
+
+## Portfolio Description Templates
+
+Use any of these directly in your portfolio, resume, or LinkedIn profile.
+
+### Short (1-2 lines)
+
+Built an end-to-end handwritten digit recognition system using a tuned KNN model on MNIST, with FastAPI + Streamlit inference interfaces, CI-tested code quality, and Docker-based reproducible deployment.
+
+### Medium (Project Summary)
+
+Designed and implemented a production-style handwritten digit recognition project covering the full ML lifecycle: vectorized preprocessing, hyperparameter tuning (GridSearchCV + 5-fold cross-validation), model evaluation (accuracy, F1, confusion matrix, latency), and deployment-ready inference. Exposed prediction through both a FastAPI backend and a Streamlit web app with top-3 predictions, uncertainty thresholding, and preprocessing previews. Added automated tests, quality gates (lint/format/type-check), and containerized runtime support for reliable reproducibility.
+
+### Resume Bullet Points
+
+- Built a modular ML pipeline for MNIST digit classification using KNN with GridSearchCV and 5-fold cross-validation.
+- Achieved 95.18% test accuracy with low inference latency (8.28 ms/image) and robust metrics reporting.
+- Developed FastAPI and Streamlit interfaces with top-k predictions, uncertainty handling, and preprocessing explainability.
+- Productionized the project using CI quality gates, unit tests, and Dockerized workflows.
+
+### LinkedIn Description
+
+I built a production-style Handwritten Digit Recognition project to demonstrate end-to-end ML engineering. The system trains and evaluates a tuned KNN model on MNIST, then serves predictions through FastAPI and Streamlit. I added top-3 confidence outputs, uncertainty threshold handling, preprocessing previews, automated tests, CI quality checks, and Docker support. This project reflects both model performance and real-world software engineering practices.
 
 ## Setup
 
