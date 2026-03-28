@@ -1,0 +1,13 @@
+__pycache__/
+*.py[cod]
+*.so
+
+.ipynb_checkpoints/
+
+*.pkl
+*.joblib
+
+data/
+.venv/
+
+.DS_Store
