@@ -12,6 +12,7 @@ A machine learning project that classifies handwritten digits (0–9) from the M
 ## Features
 
 - MNIST data loading, normalization, and preprocessing via TensorFlow/Keras
+- Shared constants/configuration module for cleaner maintainability
 - KNN classifier with `ball_tree` algorithm for speed-optimised lookups
 - `GridSearchCV` over `n_neighbors`, `metric`, and `weights`
 - 5-Fold cross-validation for robust performance estimates
@@ -30,18 +31,23 @@ handwritten-digit-recognition/
 ├── .gitignore
 ├── notebooks/
 │   └── exploration.ipynb
+├── examples/
+│   └── README.md
 ├── src/
 │   ├── __init__.py
 │   ├── data_loader.py
 │   ├── model.py
 │   ├── train.py
 │   ├── evaluate.py
-│   └── predict.py
+│   ├── predict.py
+│   ├── constants.py
+│   └── version.py
 ├── tests/
 │   ├── __init__.py
 │   └── test_model.py
 └── results/
-    └── metrics.json
+    ├── metrics.json
+    └── training_metrics.json
 ```
 
 ---
@@ -87,6 +93,8 @@ python -m src.evaluate
 python -m src.predict --image path/to/digit.png
 ```
 
+See example input guidance in `examples/README.md`.
+
 ### Run unit tests
 
 ```bash
@@ -108,6 +116,10 @@ pytest tests/ -v
 
 Confusion matrix and full classification report are saved to `results/` after running `evaluate.py`.
 Training metadata including best hyperparameters and CV scores is stored in `results/training_metrics.json`.
+
+## Release Notes
+
+Project milestones and release notes are tracked in `CHANGELOG.md`.
 
 ---
 
