@@ -45,6 +45,9 @@ Core capabilities:
 - Single-image prediction with class confidence scores
 - FastAPI inference API for backend showcase
 - Streamlit demo app for interactive frontend showcase
+- Top-3 prediction view with confidence ranking
+- Uncertainty threshold handling for low-confidence inputs
+- Preprocessing preview that shows the 28x28 model-ready image
 
 ## Architecture
 
@@ -135,6 +138,12 @@ handwritten-digit-recognition/
 5. `src/predict.py`
     - CLI inference from image path
     - Prints predicted digit and confidence for each class
+    - Provides top-k predictions and uncertainty-aware output metadata
+
+6. `app/streamlit_app.py`
+    - Displays top-3 classes and confidence percentages
+    - Flags low-confidence uploads as uncertain
+    - Shows preprocessing preview (28x28) used for model inference
 
 ## Portfolio Pitch
 
@@ -221,6 +230,12 @@ Open API docs at: <http://127.0.0.1:8000/docs>
 python -m streamlit run app/streamlit_app.py
 ```
 
+The Streamlit app now includes:
+
+- Top-3 predictions table
+- Adjustable uncertainty threshold (sidebar)
+- Preprocessing preview image used by the model
+
 ## Run with Docker
 
 Use Docker when you want one-command startup without local Python dependency setup.
@@ -277,6 +292,11 @@ make portfolio-demo
 
 1. Open the interactive demo and upload a digit image:
     - <http://127.0.0.1:8501>
+
+1. Show practical robustness features in UI:
+    - Top-3 predictions
+    - Uncertainty warning for low-confidence inputs
+    - 28x28 preprocessing preview
 
 1. Show saved metrics and confusion matrix artifacts:
     - `results/metrics.json`

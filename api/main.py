@@ -1,13 +1,16 @@
 """FastAPI app exposing prediction endpoints for handwritten digit recognition."""
 
+# pyright: reportMissingImports=false, reportMissingModuleSource=false
+
 from __future__ import annotations
 
 import tempfile
 from pathlib import Path
+from typing import Any
 
 from fastapi import FastAPI, File, HTTPException, UploadFile
 
-from src.predict import predict_digit
+from src.predict import DEFAULT_TOP_K, DEFAULT_UNCERTAINTY_THRESHOLD, predict_digit_with_details
 
 ALLOWED_SUFFIXES: set[str] = {".png", ".jpg", ".jpeg", ".bmp"}
 
@@ -50,7 +53,7 @@ def health() -> dict[str, str]:
 
 
 @app.post("/predict")
-async def predict(file: UploadFile = File(...)) -> dict[str, object]:
+async def predict(file: UploadFile = File(...)) -> dict[str, Any]:
     """Predict digit from an uploaded image.
 
     Args:
@@ -72,7 +75,11 @@ async def predict(file: UploadFile = File(...)) -> dict[str, object]:
         temp_file.write(file_bytes)
 
     try:
-        predicted_digit, confidences = predict_digit(str(temp_path))
+        prediction: dict[str, Any] = predict_digit_with_details(
+            image_path=str(temp_path),
+            top_k=DEFAULT_TOP_K,
+            uncertainty_threshold=DEFAULT_UNCERTAINTY_THRESHOLD,
+        )
     except FileNotFoundError as exc:
         raise HTTPException(status_code=500, detail=str(exc)) from exc
     except Exception as exc:  # pragma: no cover - defensive path for invalid images
@@ -81,6 +88,10 @@ async def predict(file: UploadFile = File(...)) -> dict[str, object]:
         temp_path.unlink(missing_ok=True)
 
     return {
-        "predicted_digit": predicted_digit,
-        "confidences": [float(score) for score in confidences],
+        "predicted_digit": int(prediction["predicted_digit"]),
+        "confidences": [float(score) for score in prediction["confidences"]],
+        "top_predictions": prediction["top_predictions"],
+        "max_confidence": float(prediction["max_confidence"]),
+        "is_uncertain": bool(prediction["is_uncertain"]),
+        "uncertainty_threshold": float(prediction["uncertainty_threshold"]),
     }

@@ -1,5 +1,7 @@
 """Data loading and preprocessing utilities for handwritten digit recognition."""
 
+# pyright: reportMissingImports=false, reportMissingModuleSource=false
+
 from __future__ import annotations
 
 from pathlib import Path
@@ -19,6 +21,42 @@ from src.constants import (
 
 ArrayPair = Tuple[np.ndarray, np.ndarray]
 DatasetSplit = Tuple[ArrayPair, ArrayPair]
+
+
+def load_custom_image_with_preview(image_path: str) -> tuple[np.ndarray, np.ndarray]:
+    """Load a custom image and return both model features and preview image.
+
+    Args:
+        image_path: Path to an input image.
+
+    Returns:
+        tuple[np.ndarray, np.ndarray]: Flattened feature vector shape (1, 784)
+            and normalized preview image shape (28, 28).
+    """
+    path: Path = Path(image_path)
+    if not path.exists():
+        raise FileNotFoundError(f"Image not found: {image_path}")
+
+    pil_image: Image.Image = Image.open(path).convert("L").resize((IMAGE_WIDTH, IMAGE_HEIGHT))
+    pil_array: np.ndarray = np.asarray(pil_image, dtype=np.uint8)
+
+    cv_array: np.ndarray | None = cv2.imread(str(path), cv2.IMREAD_GRAYSCALE)
+    if cv_array is not None:
+        resized_cv: np.ndarray = cv2.resize(
+            cv_array,
+            (IMAGE_WIDTH, IMAGE_HEIGHT),
+            interpolation=cv2.INTER_AREA,
+        )
+        merged: np.ndarray = (
+            (pil_array.astype(np.float32) + resized_cv.astype(np.float32)) / 2.0
+        ).astype(np.uint8)
+    else:
+        merged = pil_array
+
+    inverted: np.ndarray = np.where(merged > BINARIZATION_THRESHOLD, 0, 255).astype(np.uint8)
+    features: np.ndarray = preprocess_images(inverted)
+    preview: np.ndarray = (inverted.astype(np.float32) / PIXEL_SCALE)
+    return features, preview
 
 
 def load_mnist_data() -> DatasetSplit:
@@ -77,26 +115,5 @@ def load_custom_image(image_path: str) -> np.ndarray:
         FileNotFoundError: If image does not exist.
         ValueError: If image cannot be loaded or processed.
     """
-    path: Path = Path(image_path)
-    if not path.exists():
-        raise FileNotFoundError(f"Image not found: {image_path}")
-
-    pil_image: Image.Image = Image.open(path).convert("L").resize((IMAGE_WIDTH, IMAGE_HEIGHT))
-    pil_array: np.ndarray = np.asarray(pil_image, dtype=np.uint8)
-
-    cv_array: np.ndarray | None = cv2.imread(str(path), cv2.IMREAD_GRAYSCALE)
-    if cv_array is not None:
-        resized_cv: np.ndarray = cv2.resize(
-            cv_array,
-            (IMAGE_WIDTH, IMAGE_HEIGHT),
-            interpolation=cv2.INTER_AREA,
-        )
-        # Combine PIL and OpenCV grayscale interpretations for stable preprocessing.
-        merged: np.ndarray = (
-            (pil_array.astype(np.float32) + resized_cv.astype(np.float32)) / 2.0
-        ).astype(np.uint8)
-    else:
-        merged = pil_array
-
-    inverted: np.ndarray = np.where(merged > BINARIZATION_THRESHOLD, 0, 255).astype(np.uint8)
-    return preprocess_images(inverted)
+    features, _ = load_custom_image_with_preview(image_path)
+    return features
