@@ -14,10 +14,12 @@ Production-style machine learning project for classifying handwritten digits (0-
 - [Architecture](#architecture)
 - [Project Structure](#project-structure)
 - [How It Works](#how-it-works)
+- [Portfolio Pitch](#portfolio-pitch)
 - [Setup](#setup)
 - [Run the Project](#run-the-project)
 - [Outputs and Artifacts](#outputs-and-artifacts)
 - [Performance](#performance)
+- [Interview Talking Points](#interview-talking-points)
 - [Testing and CI](#testing-and-ci)
 - [Troubleshooting](#troubleshooting)
 - [Roadmap](#roadmap)
@@ -115,6 +117,24 @@ handwritten-digit-recognition/
     - CLI inference from image path
     - Prints predicted digit and confidence for each class
 
+## Portfolio Pitch
+
+This repository demonstrates an end-to-end machine learning workflow that I designed and productionized for handwritten digit classification. The project covers data engineering, model selection, hyperparameter tuning, evaluation, inference, testing, and CI automation in a clean, modular Python codebase.
+
+Why this stands out for portfolio review:
+
+- Complete ML lifecycle: training, evaluation, prediction, and artifact management
+- Reproducibility: metrics persisted to structured JSON outputs for auditing
+- Performance focus: latency tracking and documented accuracy targets
+- Engineering quality: unit tests, CI checks, and maintainable module boundaries
+
+Technical impact summary:
+
+- Test accuracy: 95.18%
+- CV mean accuracy: 95.35%
+- Macro F1 score: 95.16%
+- Inference latency: 8.28 ms per image
+
 ## Setup
 
 ```bash
@@ -182,6 +202,34 @@ pytest tests -v
 | Macro F1 Score     | 95.16%  |
 | Prediction Latency | 8.28 ms |
 | Latency Target     | <100 ms |
+
+## Interview Talking Points
+
+Use these points while presenting the project:
+
+1. Problem framing
+    - Multi-class classification problem on image data.
+    - Selected KNN for interpretable baseline with strong MNIST performance.
+
+2. Data and preprocessing
+    - Loaded MNIST with TensorFlow dataset utilities.
+    - Applied vectorized normalization and flattening for efficient KNN input.
+    - Added custom image preprocessing path to support real user inputs.
+
+3. Model development
+    - Used GridSearchCV with 5-fold K-Fold CV for robust model selection.
+    - Tuned neighbors, distance metric, and weighting strategy.
+    - Chose ball_tree search for practical speed improvements.
+
+4. Evaluation strategy
+    - Reported precision, recall, F1, and confusion matrix.
+    - Measured per-image latency with high-resolution timers.
+    - Persisted training and evaluation artifacts for traceability.
+
+5. Software engineering choices
+    - Modularized source files by responsibility.
+    - Added tests for preprocessing and model behavior.
+    - Enabled CI automation for reliable repository quality gates.
 
 ## Testing and CI
 
