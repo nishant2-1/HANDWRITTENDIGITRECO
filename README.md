@@ -23,7 +23,7 @@ A machine learning project that classifies handwritten digits (0–9) from the M
 
 ## Project Structure
 
-```
+```text
 handwritten-digit-recognition/
 ├── README.md
 ├── requirements.txt
@@ -97,14 +97,17 @@ pytest tests/ -v
 
 ## Results
 
-| Metric            | Value     |
-|-------------------|-----------|
-| Test Accuracy      | 95.18%   |
-| Macro F1 Score     | 95.16%   |
-| Prediction Latency | 8.68 ms  |
-| Latency Target     | <100 ms  |
+| Metric             | Value   |
+|--------------------|---------|
+| Test Accuracy      | 95.18%  |
+| CV Mean Accuracy   | 95.35%  |
+| CV Std Deviation   | 0.24%   |
+| Macro F1 Score     | 95.16%  |
+| Prediction Latency | 8.28 ms |
+| Latency Target     | <100 ms |
 
 Confusion matrix and full classification report are saved to `results/` after running `evaluate.py`.
+Training metadata including best hyperparameters and CV scores is stored in `results/training_metrics.json`.
 
 ---
 

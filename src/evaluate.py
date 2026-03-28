@@ -18,8 +18,22 @@ from .data_loader import load_mnist_data
 MODEL_PATH: Path = Path("models/knn_best.joblib")
 RESULTS_DIR: Path = Path("results")
 METRICS_PATH: Path = RESULTS_DIR / "metrics.json"
+TRAINING_METRICS_PATH: Path = RESULTS_DIR / "training_metrics.json"
 CONFUSION_MATRIX_PATH: Path = RESULTS_DIR / "confusion_matrix.png"
 NUM_CLASSES: int = 10
+
+
+def _load_training_metrics() -> Dict[str, Any]:
+    """Load training metrics if available.
+
+    Returns:
+        Dict[str, Any]: Training metrics dictionary or empty dictionary.
+    """
+    if not TRAINING_METRICS_PATH.exists():
+        return {}
+
+    with TRAINING_METRICS_PATH.open("r", encoding="utf-8") as file:
+        return cast(Dict[str, Any], json.load(file))
 
 
 def evaluate_model() -> Dict[str, Any]:
@@ -52,7 +66,10 @@ def evaluate_model() -> Dict[str, Any]:
 
     save_confusion_matrix(conf_matrix)
 
+    training_metrics: Dict[str, Any] = _load_training_metrics()
+
     metrics: Dict[str, Any] = {
+        **training_metrics,
         "accuracy": accuracy,
         "latency_ms_per_image": latency_ms_per_image,
         "target_latency_ms": 100.0,

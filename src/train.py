@@ -3,9 +3,11 @@
 from __future__ import annotations
 
 import argparse
+import json
 import logging
 import time
 from pathlib import Path
+from typing import Any, Dict
 
 import joblib
 import numpy as np
@@ -17,6 +19,8 @@ from .model import DEFAULT_CV_SPLITS, TrainingResult, tune_and_train_model
 
 MODEL_DIR: Path = Path("models")
 MODEL_PATH: Path = MODEL_DIR / "knn_best.joblib"
+RESULTS_DIR: Path = Path("results")
+TRAINING_METRICS_PATH: Path = RESULTS_DIR / "training_metrics.json"
 TARGET_ACCURACY: float = 0.95
 DEFAULT_TRAIN_SAMPLES: int = 12000
 DEFAULT_TEST_SAMPLES: int = 2000
@@ -24,6 +28,40 @@ DEFAULT_TEST_SAMPLES: int = 2000
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 LOGGER = logging.getLogger(__name__)
+
+
+def _save_training_metrics(
+    training_result: TrainingResult,
+    test_accuracy: float,
+    elapsed_seconds: float,
+    full_mode: bool,
+) -> None:
+    """Save training metrics to JSON for downstream reporting.
+
+    Args:
+        training_result: Training result object from model tuning.
+        test_accuracy: Accuracy measured on the test split used during training.
+        elapsed_seconds: End-to-end training time in seconds.
+        full_mode: Whether full training mode was used.
+    """
+    cv_mean: float = float(np.mean(training_result.cv_scores))
+    cv_std: float = float(np.std(training_result.cv_scores))
+
+    metrics_payload: Dict[str, Any] = {
+        "train_mode": "full" if full_mode else "fast",
+        "training_seconds": elapsed_seconds,
+        "test_accuracy": test_accuracy,
+        "best_params": training_result.best_params,
+        "best_cv_score": training_result.best_score,
+        "cv_scores": training_result.cv_scores.tolist(),
+        "cv_mean_accuracy": cv_mean,
+        "cv_std_accuracy": cv_std,
+        "target_accuracy": TARGET_ACCURACY,
+    }
+
+    RESULTS_DIR.mkdir(parents=True, exist_ok=True)
+    with TRAINING_METRICS_PATH.open("w", encoding="utf-8") as file:
+        json.dump(metrics_payload, file, indent=2)
 
 
 def parse_args() -> argparse.Namespace:
@@ -141,6 +179,14 @@ def train_pipeline(
             TARGET_ACCURACY,
             test_accuracy,
         )
+
+    _save_training_metrics(
+        training_result=training_result,
+        test_accuracy=test_accuracy,
+        elapsed_seconds=elapsed,
+        full_mode=full_mode,
+    )
+    LOGGER.info("Training metrics saved to %s", TRAINING_METRICS_PATH)
 
     return test_accuracy, elapsed, training_result.cv_scores
 

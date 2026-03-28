@@ -1,0 +1,22 @@
+{
+  "train_mode": "fast",
+  "training_seconds": 144.20887550001498,
+  "test_accuracy": 0.9305,
+  "best_params": {
+    "algorithm": "ball_tree",
+    "metric": "minkowski",
+    "n_neighbors": 3,
+    "weights": "distance"
+  },
+  "best_cv_score": 0.9535,
+  "cv_scores": [
+    0.955,
+    0.9575,
+    0.9525,
+    0.95125,
+    0.95125
+  ],
+  "cv_mean_accuracy": 0.9535,
+  "cv_std_accuracy": 0.0024238399287081496,
+  "target_accuracy": 0.95
+}
