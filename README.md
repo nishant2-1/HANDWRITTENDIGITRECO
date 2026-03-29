@@ -10,6 +10,21 @@ Production-style machine learning project for classifying handwritten digits (0-
 
 Live repository: <https://github.com/nishant2-1/HANDWRITTENDIGITRECO>
 
+## Live Deployment
+
+Production API (Vercel):
+
+- Base URL: <https://handwrittendigitrecognization.vercel.app>
+- Health Check: <https://handwrittendigitrecognization.vercel.app/health>
+- API Docs (Swagger): <https://handwrittendigitrecognization.vercel.app/docs>
+
+Example prediction request:
+
+```bash
+curl -X POST "https://handwrittendigitrecognization.vercel.app/predict" \
+    -F "file=@examples/portfolio_samples/digit_7.png"
+```
+
 ## Table of Contents
 
 - [Overview](#overview)
@@ -18,6 +33,7 @@ Live repository: <https://github.com/nishant2-1/HANDWRITTENDIGITRECO>
 - [How It Works](#how-it-works)
 - [Portfolio Pitch](#portfolio-pitch)
 - [Portfolio Description Templates](#portfolio-description-templates)
+- [Live Deployment](#live-deployment)
 - [Setup](#setup)
 - [Run the Project](#run-the-project)
 - [Run with Docker](#run-with-docker)

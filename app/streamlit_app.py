@@ -23,6 +23,7 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 from PIL import Image
+from streamlit.errors import StreamlitSecretNotFoundError
 
 # ---------------------------------------------------------------------------
 # Constants and configuration
@@ -34,11 +35,21 @@ DEFAULT_UNCERTAINTY_THRESHOLD: float = 0.60
 
 # Read the optional Vercel API base URL from the environment.
 # Set via Streamlit secrets (TOML) or a plain environment variable.
-_API_URL: str = (
-    st.secrets.get("API_URL", "")  # type: ignore[attr-defined]
-    if hasattr(st, "secrets")
-    else os.environ.get("API_URL", "")
-)
+
+
+def _get_api_url() -> str:
+    """Read API URL from env or Streamlit secrets without crashing if secrets are missing."""
+    env_url = os.environ.get("API_URL", "").strip()
+    if env_url:
+        return env_url
+
+    try:
+        return str(st.secrets.get("API_URL", "")).strip()  # type: ignore[attr-defined]
+    except StreamlitSecretNotFoundError:
+        return ""
+
+
+_API_URL: str = _get_api_url()
 _USE_API: bool = bool(_API_URL)
 
 
