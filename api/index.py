@@ -1,16 +1,18 @@
 """Vercel serverless entrypoint for FastAPI.
 
-Mangum wraps the FastAPI ASGI app into an AWS Lambda-compatible handler,
-which is the invocation model Vercel's Python runtime uses internally.
-Vercel looks for a module-level ``handler`` variable in this file.
+Exports ``handler`` (Mangum-wrapped ASGI app) which Vercel's Python runtime
+invokes for every incoming request.
 """
 
 from __future__ import annotations
 
-from mangum import Mangum
+import sys
+from pathlib import Path
 
-from api.main import app
+# Ensure the project root is on sys.path so src.* modules resolve.
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-# ``lifespan="off"`` disables the ASGI lifespan protocol which is not
-# supported in Vercel's serverless environment.
+from mangum import Mangum  # noqa: E402
+from api.main import app  # noqa: E402
+
 handler = Mangum(app, lifespan="off")
