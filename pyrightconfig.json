@@ -1,14 +1,10 @@
 {
-  "venvPath": "/Users/admin/Handwritten Digit Recognition ",
+  "venvPath": ".",
   "venv": ".venv",
-  "include": [
-    "src",
-    "tests"
-  ],
-  "extraPaths": [
-    ".",
-    "src"
-  ],
+  "include": ["src", "api", "app", "tests"],
+  "extraPaths": [".", "src"],
   "pythonVersion": "3.11",
-  "typeCheckingMode": "basic"
+  "typeCheckingMode": "basic",
+  "reportMissingImports": "none",
+  "reportMissingModuleSource": "none"
 }

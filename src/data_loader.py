@@ -55,7 +55,7 @@ def load_custom_image_with_preview(image_path: str) -> tuple[np.ndarray, np.ndar
 
     inverted: np.ndarray = np.where(merged > BINARIZATION_THRESHOLD, 0, 255).astype(np.uint8)
     features: np.ndarray = preprocess_images(inverted)
-    preview: np.ndarray = (inverted.astype(np.float32) / PIXEL_SCALE)
+    preview: np.ndarray = inverted.astype(np.float32) / PIXEL_SCALE
     return features, preview
 
 

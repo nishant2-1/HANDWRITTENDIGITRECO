@@ -64,7 +64,9 @@ def predict_from_features(model: Any, image_features: np.ndarray) -> tuple[int, 
     return predicted_digit, confidences
 
 
-def get_top_k_predictions(confidences: np.ndarray, top_k: int = DEFAULT_TOP_K) -> list[dict[str, float]]:
+def get_top_k_predictions(
+    confidences: np.ndarray, top_k: int = DEFAULT_TOP_K
+) -> list[dict[str, float]]:
     """Return top-k prediction classes with confidence scores.
 
     Args:

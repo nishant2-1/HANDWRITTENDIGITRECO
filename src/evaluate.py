@@ -1,5 +1,7 @@
 """Model evaluation utilities for handwritten digit recognition."""
 
+# pyright: reportMissingImports=false, reportMissingModuleSource=false
+
 from __future__ import annotations
 
 import json

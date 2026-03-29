@@ -1,0 +1,16 @@
+{
+  "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
+  "python.analysis.extraPaths": [
+    "${workspaceFolder}",
+    "${workspaceFolder}/src"
+  ],
+  "python.analysis.typeCheckingMode": "basic",
+  "python.analysis.diagnosticSeverityOverrides": {
+    "reportMissingImports": "none",
+    "reportMissingModuleSource": "none"
+  },
+  "cSpell.words": ["figsize", "cmap", "cbar", "mnist", "streamlit", "uvicorn"],
+  "cSpell.enableFiletypes": ["!jupyter"],
+  "jupyter.notebookFileRoot": "${workspaceFolder}",
+  "python.envFile": "${workspaceFolder}/.env"
+}

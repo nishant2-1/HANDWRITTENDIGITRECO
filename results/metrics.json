@@ -2,9 +2,9 @@
   "model_name": "knn_mnist",
   "model_version": "1.1.0",
   "metrics_schema_version": "1.1",
-  "generated_at_utc": "2026-03-28T13:46:08.708120+00:00",
+  "generated_at_utc": "2026-03-28T16:52:59.419939+00:00",
   "train_mode": "fast",
-  "training_seconds": 144.20887550001498,
+  "training_seconds": 246.40110437502153,
   "test_accuracy": 0.9305,
   "best_params": {
     "algorithm": "ball_tree",
@@ -24,7 +24,7 @@
   "cv_std_accuracy": 0.0024238399287081496,
   "target_accuracy": 0.95,
   "accuracy": 0.9518,
-  "latency_ms_per_image": 8.569443833304105,
+  "latency_ms_per_image": 9.904842170799384,
   "target_latency_ms": 100.0,
   "classification_report": {
     "0": {

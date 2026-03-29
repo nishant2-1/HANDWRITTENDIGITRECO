@@ -21,6 +21,7 @@ Live repository: <https://github.com/nishant2-1/HANDWRITTENDIGITRECO>
 - [Setup](#setup)
 - [Run the Project](#run-the-project)
 - [Run with Docker](#run-with-docker)
+- [Deploy API on Vercel](#deploy-api-on-vercel)
 - [Portfolio Demo Checklist](#portfolio-demo-checklist)
 - [Outputs and Artifacts](#outputs-and-artifacts)
 - [Performance](#performance)
@@ -295,6 +296,60 @@ docker compose down
 ```
 
 Tip: If you update dependencies or Dockerfile, rebuild with `docker compose build`.
+
+## Deploy API on Vercel
+
+Use Vercel for the FastAPI backend deployment used in your portfolio demo.
+
+Important:
+
+- This repository deploys the API to Vercel.
+- Streamlit is not recommended on Vercel serverless functions; deploy Streamlit separately (for example Streamlit Community Cloud or Render) and keep API on Vercel.
+
+### Prerequisites
+
+- Vercel account
+- Vercel CLI installed (`npm i -g vercel`) or use Vercel web import flow
+- Model artifact present in repository: `models/knn_best.joblib`
+
+### One-time project setup
+
+1. Login:
+
+```bash
+vercel login
+```
+
+1. From project root, link and deploy preview:
+
+```bash
+vercel
+```
+
+Vercel will detect:
+
+- `vercel.json` (routes all traffic to FastAPI)
+- `api/index.py` (ASGI entrypoint)
+- `api/requirements.txt` (lean API-only dependencies)
+
+### Production deploy
+
+```bash
+vercel --prod
+```
+
+### Verify deployment
+
+- Health: `https://<your-vercel-domain>/health`
+- Docs: `https://<your-vercel-domain>/docs`
+- Predict: `POST https://<your-vercel-domain>/predict` with multipart file upload
+
+### Example test with curl
+
+```bash
+curl -X POST "https://<your-vercel-domain>/predict" \
+    -F "file=@examples/portfolio_samples/digit_7.png"
+```
 
 ## Portfolio Demo Checklist
 
