@@ -5,7 +5,8 @@ __pycache__/
 .ipynb_checkpoints/
 
 *.pkl
-*.joblib
+# knn_best.joblib is tracked intentionally for Vercel deployment
+# *.joblib
 
 data/
 .venv/
@@ -14,3 +15,5 @@ data/
 
 # Streamlit secrets
 .streamlit/secrets.toml
+.vercel
+.env*.local
