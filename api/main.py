@@ -21,6 +21,21 @@ app = FastAPI(
 )
 
 
+@app.get("/")
+def root() -> dict[str, str]:
+    """Friendly landing endpoint for browser visits.
+
+    Returns:
+        dict[str, str]: Basic service metadata and quick links.
+    """
+    return {
+        "message": "Handwritten Digit Recognition API is running.",
+        "health": "/health",
+        "docs": "/docs",
+        "predict": "/predict (POST with multipart file)",
+    }
+
+
 def _validate_filename(filename: str) -> str:
     """Validate uploaded filename extension.
 
